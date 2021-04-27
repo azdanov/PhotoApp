@@ -11,6 +11,9 @@
 
     <modules>
         <module>Discovery</module>
+        <module>Gateway</module>
+        <module>UsersApi</module>
+        <module>AccountApi</module>
     </modules>
 
 </project>
