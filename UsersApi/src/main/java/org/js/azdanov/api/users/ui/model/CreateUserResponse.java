@@ -8,8 +8,8 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class CreateUserResponse {
-    UUID userId;
-    String email;
-    String firstName;
-    String lastName;
+    private UUID userId;
+    private String email;
+    private String firstName;
+    private String lastName;
 }
