@@ -9,7 +9,6 @@ import org.js.azdanov.api.users.service.UsersService;
 import org.js.azdanov.api.users.shared.UserDto;
 import org.js.azdanov.api.users.ui.model.LoginRequest;
 import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -52,15 +51,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         UserDto user = usersService.getByEmail(username);
         String userId = user.getUserId().toString();
         Date expiration = new Date(System.currentTimeMillis() +
-            Long.parseLong(environment.getProperty("token.expiration", "86400000")));
+            Long.parseLong(environment.getProperty("jwt.expiration", "86400000")));
 
-        String token = Jwts.builder()
+        String jwt = Jwts.builder()
             .setSubject(userId)
             .setExpiration(expiration)
-            .signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret"))
+            .signWith(SignatureAlgorithm.HS512, environment.getProperty("jwt.secret"))
             .compact();
 
-        response.addHeader("token", token);
+        response.addHeader("token", jwt);
         response.addHeader("userId", userId);
     }
 
