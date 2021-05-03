@@ -1,7 +1,18 @@
 version: '3.8'
 services:
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=photo_app
+    ports:
+      - 3306:3306
   rabbitmq: # login guest:guest
     image: rabbitmq:3-management
+    restart: always
     container_name: rabbitmq
     ports:
       - 5672:5672
