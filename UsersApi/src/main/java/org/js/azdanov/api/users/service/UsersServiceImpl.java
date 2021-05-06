@@ -1,6 +1,5 @@
 package org.js.azdanov.api.users.service;
 
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.js.azdanov.api.users.data.UserEntity;
@@ -13,7 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,13 +25,13 @@ public class UsersServiceImpl implements UsersService {
 
     private final UsersRepository usersRepository;
     private final ModelMapper modelMapper;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final AlbumsServiceClient albumsServiceClient;
 
     @Override
     public UserDto createUser(UserDto userDto) {
         userDto.setUserId(UUID.randomUUID().toString());
-        userDto.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        userDto.setEncryptedPassword(passwordEncoder.encode(userDto.getPassword()));
 
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
         usersRepository.save(userEntity);

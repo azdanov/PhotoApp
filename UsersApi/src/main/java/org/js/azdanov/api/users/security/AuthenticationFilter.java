@@ -49,9 +49,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String username = ((User) authResult.getPrincipal()).getUsername();
 
         UserDto user = usersService.getByEmail(username);
-        String userId = user.getUserId().toString();
-        Date expiration = new Date(System.currentTimeMillis() +
-            Long.parseLong(environment.getProperty("jwt.expiration", "86400000")));
+        String userId = user.getUserId();
+        var expiration = new Date(System.currentTimeMillis() +
+            Long.parseLong(environment.getProperty("jwt.expiration")));
 
         String jwt = Jwts.builder()
             .setSubject(userId)
